@@ -1,22 +1,43 @@
 {
-  "title": "Worker Template",
-  "description": "A starting point for creating your own custom serverless worker. It provides a basic structure and configuration that you can build upon.",
-  "type": "serverless",
-  "category": "language",
-  "iconUrl": "https://dummyimage.com/100x100/5733ff/fff&text=SW",
+  "title": "ComfyUI WAN 2.2 (s2v, i2v)",
+  "description": "One-Click ComfyUI with Wan2.2 s2v/i2v, audio-to-video nodes, workflows, and model auto-download",
+  "type": "container",
+  "category": "video",
+  "tags": ["comfyui", "image", "video", "audio", "wan", "i2v", "s2v", "rife", "lora", "upscale"],
+  "iconUrl": "https://raw.githubusercontent.com/Weatherman-AI/comfyui-wan/main/assets/icon.png",
   "config": {
     "runsOn": "GPU",
-    "containerDiskInGb": 5,
-    "gpuIds": "ADA_24",
-    "gpuCount": 1,
+    "containerDiskInGb": 450,
     "allowedCudaVersions": [
-      "12.7",
-      "12.6",
-      "12.5",
-      "12.4",
-      "12.3",
-      "12.2",
-      "12.1"
+      "12.8",
+    ]
+    "presets": [
+      {
+        "name": "Default (WAN 2.2 S2V)",
+        "defaults": {
+          "INSTALL_WAN22_S2V": "true",
+          "INSTALL_WAN22_I2V": "false"
+        }
+      }
+    ],
+    "env": [
+      {
+        "key": "INSTALL_WAN22_I2V",
+        "value": "false"
+        "input": {
+          "name": "Install WAN 2.2 i2v",
+          "type": "boolean",
+          "default": false
+      },
+      {
+        "key": "INSTALL_WAN22_S2V",
+        "value": "true",
+        "input": {
+          "name": "Install WAN 2.2 s2v",
+          "type": "boolean",
+          "default": true
+        }
+      }
     ]
   }
 }
