@@ -29,7 +29,7 @@ This repository serves as a starting point for creating your own custom RunPod S
   - This file defines the Docker image for your worker.
   - It starts from a [RunPod base image (`runpod/base`)](https://github.com/runpod/containers/tree/main/official-templates/base) which includes CUDA, mulitple versions of python, uv, jupyter notebook and common dependencies.
   - It installs dependencies from `requirements.txt` using `uv`.
-  - It copies your `src` directory into the image.
+  - It copies your `handler.py` file into the image.
   - You might need to add system dependencies (`apt-get install ...`), environment variables (`ENV`), or other setup steps here if required by your specific application.
 - **`test_input.json`:** Modify this file to provide relevant sample input for local testing.
 
