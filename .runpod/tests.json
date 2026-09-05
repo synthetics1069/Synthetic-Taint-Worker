@@ -5,7 +5,7 @@
       "input": {
         "name": "John Doe"
       },
-      "timeout": 10000
+      "timeout": 300000
     }
   ],
   "config": {
