@@ -80,6 +80,9 @@ def main() -> None:
     assert 'models/diffusers" "$COMFY_ROOT/models/diffusers' not in initialize_script
     smoke_script = (ROOT / "scripts" / "container_smoke_test.sh").read_text(encoding="utf-8")
     assert smoke_script.count("/opt/model-lab/scripts/initialize.sh") == 2
+    assert "run_comfyui cold" in smoke_script
+    assert "run_comfyui repeat" in smoke_script
+    assert smoke_script.count('grep -q "IMPORT FAILED"') == 1
     assert ".preexisting-content" in smoke_script
     assert "ComfyUI-KwaiKolorsWrapper" in smoke_script
     assert "/system_stats" in smoke_script
