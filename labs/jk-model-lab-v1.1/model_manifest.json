@@ -1,0 +1,110 @@
+{
+  "schema_version": 2,
+  "lab_version": "1.1.0",
+  "profile": "generation-only-five-model-single-gpu",
+  "custom_nodes": [
+    {
+      "name": "ComfyUI-KwaiKolorsWrapper",
+      "repo": "https://github.com/kijai/ComfyUI-KwaiKolorsWrapper.git",
+      "commit": "6fc1cd9d20bb7537facf180e5494b486b9710e24",
+      "reason": "Kolors is the only lab model without native ComfyUI core nodes."
+    }
+  ],
+  "models": [
+    {
+      "role": "generation.hidream_o1_full",
+      "kind": "file",
+      "repo_id": "Comfy-Org/HiDream-O1-Image",
+      "filename": "checkpoints/hidream_o1_image_fp8_scaled.safetensors",
+      "destination": "checkpoints/hidream_o1_image_fp8_scaled.safetensors",
+      "license": "MIT"
+    },
+    {
+      "role": "generation.chroma1_hd",
+      "kind": "file",
+      "repo_id": "Comfy-Org/Chroma1-HD_repackaged",
+      "filename": "split_files/diffusion_models/Chroma1-HD-fp8mixed.safetensors",
+      "destination": "diffusion_models/Chroma1-HD-fp8mixed.safetensors",
+      "license": "Apache-2.0"
+    },
+    {
+      "role": "generation.chroma1_hd.text_encoder",
+      "kind": "file",
+      "repo_id": "comfyanonymous/flux_text_encoders",
+      "filename": "t5xxl_fp8_e4m3fn_scaled.safetensors",
+      "destination": "text_encoders/t5xxl_fp8_e4m3fn_scaled.safetensors",
+      "license": "component-specific; verify upstream card"
+    },
+    {
+      "role": "shared.chroma_z_image.vae",
+      "kind": "file",
+      "repo_id": "Comfy-Org/z_image_turbo",
+      "filename": "split_files/vae/ae.safetensors",
+      "destination": "vae/ae.safetensors",
+      "license": "Apache-2.0 / component-specific"
+    },
+    {
+      "role": "generation.krea2_turbo",
+      "kind": "file",
+      "repo_id": "Comfy-Org/Krea-2",
+      "filename": "diffusion_models/krea2_turbo_fp8_scaled.safetensors",
+      "destination": "diffusion_models/krea2_turbo_fp8_scaled.safetensors",
+      "license": "verify Krea-2 upstream model terms before production"
+    },
+    {
+      "role": "generation.krea2_turbo.text_encoder",
+      "kind": "file",
+      "repo_id": "Comfy-Org/Krea-2",
+      "filename": "text_encoders/qwen3vl_4b_fp8_scaled.safetensors",
+      "destination": "text_encoders/qwen3vl_4b_fp8_scaled.safetensors",
+      "license": "component-specific; verify upstream card"
+    },
+    {
+      "role": "generation.krea2_turbo.vae",
+      "kind": "file",
+      "repo_id": "Comfy-Org/Krea-2",
+      "filename": "vae/qwen_image_vae.safetensors",
+      "destination": "vae/qwen_image_vae.safetensors",
+      "license": "Apache-2.0 / component-specific"
+    },
+    {
+      "role": "generation.kolors",
+      "kind": "snapshot",
+      "repo_id": "Kwai-Kolors/Kolors",
+      "destination": "diffusers/Kolors",
+      "allow_patterns": [
+        "model_index.json",
+        "scheduler/*",
+        "unet/*fp16.safetensors*",
+        "unet/*.json",
+        "text_encoder/*"
+      ],
+      "ignore_patterns": ["vae/*", "*.py", "*.pyc"],
+      "license": "Apache-2.0 code; model commercial use requires Kwai registration"
+    },
+    {
+      "role": "generation.kolors.vae",
+      "kind": "file",
+      "repo_id": "madebyollin/sdxl-vae-fp16-fix",
+      "filename": "sdxl.vae.safetensors",
+      "destination": "vae/sdxl.vae.safetensors",
+      "license": "MIT"
+    },
+    {
+      "role": "generation.z_image_base",
+      "kind": "file",
+      "repo_id": "Comfy-Org/z_image",
+      "filename": "split_files/diffusion_models/z_image_bf16.safetensors",
+      "destination": "diffusion_models/z_image_bf16.safetensors",
+      "license": "Apache-2.0"
+    },
+    {
+      "role": "generation.z_image_base.text_encoder",
+      "kind": "file",
+      "repo_id": "Comfy-Org/z_image_turbo",
+      "filename": "split_files/text_encoders/qwen_3_4b.safetensors",
+      "destination": "text_encoders/qwen_3_4b.safetensors",
+      "license": "Apache-2.0 / component-specific"
+    }
+  ]
+}

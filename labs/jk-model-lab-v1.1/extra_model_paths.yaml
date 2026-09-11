@@ -1,0 +1,9 @@
+model_lab:
+  base_path: /workspace/model-lab
+  checkpoints: models/checkpoints
+  diffusion_models: models/diffusion_models
+  text_encoders: models/text_encoders
+  vae: models/vae
+  loras: models/loras
+  LLM: models/LLM
+  diffusers: models/diffusers

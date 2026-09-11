@@ -1,0 +1,75 @@
+{
+  "schema_version": 1,
+  "execution_order": "model_major",
+  "models": [
+    {
+      "slug": "hidream_o1_full",
+      "display_name": "HiDream-O1-Image Full",
+      "workflow": "api_workflows/hidream_o1_full.api.json",
+      "bindings": {
+        "prompt": ["4", "text"],
+        "negative_prompt": ["5", "text"],
+        "seed": ["9", "noise_seed"],
+        "width": ["6", "width"],
+        "height": ["6", "height"],
+        "output_prefix": ["11", "filename_prefix"]
+      },
+      "defaults": {"width": 2048, "height": 2048, "steps": 40, "cfg": 5.0}
+    },
+    {
+      "slug": "chroma1_hd",
+      "display_name": "Chroma1-HD",
+      "workflow": "api_workflows/chroma1_hd.api.json",
+      "bindings": {
+        "prompt": ["5", "text"],
+        "negative_prompt": ["6", "text"],
+        "seed": ["8", "noise_seed"],
+        "width": ["11", "width"],
+        "height": ["11", "height"],
+        "output_prefix": ["15", "filename_prefix"]
+      },
+      "defaults": {"width": 1024, "height": 1024, "steps": 26, "cfg": 3.5}
+    },
+    {
+      "slug": "krea2_turbo",
+      "display_name": "KREA 2 Turbo",
+      "workflow": "api_workflows/krea2_turbo.api.json",
+      "bindings": {
+        "prompt": ["3", "text"],
+        "seed": ["6", "seed"],
+        "width": ["5", "width"],
+        "height": ["5", "height"],
+        "output_prefix": ["9", "filename_prefix"]
+      },
+      "defaults": {"width": 1024, "height": 1024, "steps": 8, "cfg": 1.0}
+    },
+    {
+      "slug": "kolors",
+      "display_name": "Kolors",
+      "workflow": "api_workflows/kolors.api.json",
+      "bindings": {
+        "prompt": ["3", "prompt"],
+        "negative_prompt": ["3", "negative_prompt"],
+        "seed": ["4", "seed"],
+        "width": ["4", "width"],
+        "height": ["4", "height"],
+        "output_prefix": ["7", "filename_prefix"]
+      },
+      "defaults": {"width": 1024, "height": 1024, "steps": 25, "cfg": 5.0}
+    },
+    {
+      "slug": "z_image_base",
+      "display_name": "Z-Image Base",
+      "workflow": "api_workflows/z_image_base.api.json",
+      "bindings": {
+        "prompt": ["4", "text"],
+        "negative_prompt": ["5", "text"],
+        "seed": ["7", "seed"],
+        "width": ["6", "width"],
+        "height": ["6", "height"],
+        "output_prefix": ["10", "filename_prefix"]
+      },
+      "defaults": {"width": 1024, "height": 1024, "steps": 30, "cfg": 4.0}
+    }
+  ]
+}

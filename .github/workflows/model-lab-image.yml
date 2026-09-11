@@ -1,0 +1,61 @@
+name: Build Model Lab image
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - codex/model-lab-v1.1
+    paths:
+      - "labs/jk-model-lab-v1.1/**"
+      - ".github/workflows/model-lab-image.yml"
+
+permissions:
+  contents: read
+  packages: write
+
+concurrency:
+  group: model-lab-image-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  IMAGE_NAME: ghcr.io/${{ github.repository_owner }}/synthetic-taint-worker
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v5
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Authenticate to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and publish linux/amd64 image
+        id: build
+        uses: docker/build-push-action@v6
+        with:
+          context: labs/jk-model-lab-v1.1
+          file: labs/jk-model-lab-v1.1/Dockerfile
+          platforms: linux/amd64
+          push: true
+          tags: |
+            ${{ env.IMAGE_NAME }}:jk-model-lab-v1.1.0
+            ${{ env.IMAGE_NAME }}:model-lab-${{ github.sha }}
+          cache-from: type=gha,scope=model-lab-v1.1
+          cache-to: type=gha,mode=max,scope=model-lab-v1.1
+          provenance: mode=max
+          sbom: true
+
+      - name: Record immutable image reference
+        run: |
+          echo "### Model Lab container" >> "$GITHUB_STEP_SUMMARY"
+          echo '```text' >> "$GITHUB_STEP_SUMMARY"
+          echo "${IMAGE_NAME}@${{ steps.build.outputs.digest }}" >> "$GITHUB_STEP_SUMMARY"
+          echo '```' >> "$GITHUB_STEP_SUMMARY"

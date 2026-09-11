@@ -1,0 +1,21 @@
+services:
+  model-lab:
+    build:
+      context: .
+      args:
+        COMFYUI_COMMIT: 6f3895ed8d1e0f1d5fad11b48b3f159f7de1cc15
+        KOLORS_WRAPPER_COMMIT: 6fc1cd9d20bb7537facf180e5494b486b9710e24
+    image: jk-model-lab:v1.1.0
+    ports:
+      - "8188:8188"
+    volumes:
+      - ./runtime:/workspace/model-lab
+    environment:
+      AUTO_DOWNLOAD_MODELS: "0"
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
