@@ -67,7 +67,7 @@ Set the credential name `HF_TOKEN` only if Hugging Face requests authentication.
 
 ```bash
 docker build --platform=linux/amd64 -t YOUR_REGISTRY/jk-model-lab:v1.1.0 .
-docker run --rm --gpus all -p 8188:8188 \
+docker run --rm --gpus all -p 8188:8188 -p 8888:8888 \
   -v "$(pwd)/runtime:/workspace/model-lab" \
   YOUR_REGISTRY/jk-model-lab:v1.1.0
 ```
@@ -79,6 +79,11 @@ For RunPod commissioning, set `SELF_TERMINATE_AFTER_SECONDS` to a positive integ
 removes its own Pod at the deadline using RunPod's injected pod-scoped CLI credential.
 The timer is a cost backstop; normal teardown should still remove the Pod as soon as
 commissioning finishes.
+
+On RunPod, expose `8888/http` and set `JUPYTER_PASSWORD` to enable JupyterLab.
+The image starts the base RunPod SSH/Jupyter services before model downloads, so
+administrative access is available during volume population. Service and download
+logs persist at `runs/runpod-services.log` and `runs/model-downloads.log`.
 
 ## Validate and execute
 

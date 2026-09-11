@@ -190,10 +190,10 @@ runpodctl pod create \
   --name jk-model-lab-v1-1 \
   --image "$MODEL_LAB_IMAGE" \
   --gpu-id '<EXACT_LIVE_GPU_TYPE_ID>' \
-  --ports '8188/http,22/tcp' \
+  --ports '8188/http,8888/http,22/tcp' \
   --network-volume-id '<VOLUME_ID>' \
   --volume-mount-path /workspace \
-  --env '{"AUTO_DOWNLOAD_MODELS":"0","MODEL_LAB_ROOT":"/workspace/model-lab","HF_HOME":"/workspace/model-lab/.cache/huggingface","COMFYUI_PORT":"8188","SELF_TERMINATE_AFTER_SECONDS":"14400"}'
+  --env '{"AUTO_DOWNLOAD_MODELS":"0","MODEL_LAB_ROOT":"/workspace/model-lab","HF_HOME":"/workspace/model-lab/.cache/huggingface","COMFYUI_PORT":"8188","JUPYTER_PASSWORD":"<SECRET>","SELF_TERMINATE_AFTER_SECONDS":"14400"}'
 ```
 
 - **PROPOSED** — Once the Pod is healthy and the prompt manifest is approved:

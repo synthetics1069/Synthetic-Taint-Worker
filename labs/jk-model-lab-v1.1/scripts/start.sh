@@ -36,6 +36,12 @@ for workflow in /opt/model-lab/workflows/*.json; do
   cp -n "$workflow" "$LAB_ROOT/user/default/workflows/$(basename "$workflow")"
 done
 
+# Start the official RunPod services before any long-running model downloads.
+# This makes SSH and, when JUPYTER_PASSWORD is configured, JupyterLab available
+# while the persistent volume is being populated.
+/start.sh >>"$LAB_ROOT/runs/runpod-services.log" 2>&1 &
+echo "RunPod SSH/Jupyter services starting in the background."
+
 # RunPod no longer exposes a create-time termination flag. When configured,
 # use the pod-scoped runpodctl credential injected by RunPod as a hard cost
 # guard. The legacy command is intentional: pod-scoped self-removal currently
@@ -58,11 +64,9 @@ if [[ -n "${SELF_TERMINATE_AFTER_SECONDS:-}" ]]; then
 fi
 
 if [[ "${AUTO_DOWNLOAD_MODELS:-0}" == "1" ]]; then
-  python /opt/model-lab/scripts/download_models.py
+  python /opt/model-lab/scripts/download_models.py \
+    2>&1 | tee -a "$LAB_ROOT/runs/model-downloads.log"
 fi
-
-# Preserve the official RunPod base startup so SSH and the web terminal remain available.
-/start.sh &
 
 exec python -u "$COMFY_ROOT/main.py" \
   --listen 0.0.0.0 \

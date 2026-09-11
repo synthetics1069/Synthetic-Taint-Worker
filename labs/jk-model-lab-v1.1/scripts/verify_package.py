@@ -69,6 +69,12 @@ def main() -> None:
     dockerfile = (ROOT / "Dockerfile").read_text(encoding="utf-8")
     assert "6f3895ed8d1e0f1d5fad11b48b3f159f7de1cc15" in dockerfile
     assert "6fc1cd9d20bb7537facf180e5494b486b9710e24" in dockerfile
+    assert "EXPOSE 8188 8888" in dockerfile
+    start_script = (ROOT / "scripts" / "start.sh").read_text(encoding="utf-8")
+    assert start_script.index("/start.sh") < start_script.index("download_models.py"), (
+        "RunPod SSH/Jupyter services must start before model downloads"
+    )
+    assert "runs/model-downloads.log" in start_script
     assert prompts["protocol_version"] == "1.0.0"
     assert prompts["approved_by"] == "J.K."
     assert prompts["manifest_status"] == "APPROVED"
