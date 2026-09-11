@@ -30,6 +30,7 @@ RUN --mount=type=cache,target=/root/.cache/pip \
 
 COPY . /opt/model-lab
 RUN chmod +x /opt/model-lab/scripts/*.sh /opt/model-lab/scripts/*.py
+RUN /opt/model-lab/scripts/container_smoke_test.sh
 
 EXPOSE 8188 8888
 CMD ["/opt/model-lab/scripts/start.sh"]

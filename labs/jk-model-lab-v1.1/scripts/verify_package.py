@@ -75,6 +75,15 @@ def main() -> None:
         "RunPod SSH/Jupyter services must start before model downloads"
     )
     assert "runs/model-downloads.log" in start_script
+    initialize_script = (ROOT / "scripts" / "initialize.sh").read_text(encoding="utf-8")
+    assert 'models/diffusers/Kolors' in initialize_script
+    assert 'models/diffusers" "$COMFY_ROOT/models/diffusers' not in initialize_script
+    smoke_script = (ROOT / "scripts" / "container_smoke_test.sh").read_text(encoding="utf-8")
+    assert smoke_script.count("/opt/model-lab/scripts/initialize.sh") == 2
+    assert ".preexisting-content" in smoke_script
+    assert "ComfyUI-KwaiKolorsWrapper" in smoke_script
+    assert "/system_stats" in smoke_script
+    assert "RUN /opt/model-lab/scripts/container_smoke_test.sh" in dockerfile
     assert prompts["protocol_version"] == "1.0.0"
     assert prompts["approved_by"] == "J.K."
     assert prompts["manifest_status"] == "APPROVED"
