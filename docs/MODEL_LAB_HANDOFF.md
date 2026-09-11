@@ -193,8 +193,7 @@ runpodctl pod create \
   --ports '8188/http,22/tcp' \
   --network-volume-id '<VOLUME_ID>' \
   --volume-mount-path /workspace \
-  --env '{"AUTO_DOWNLOAD_MODELS":"0","MODEL_LAB_ROOT":"/workspace/model-lab","HF_HOME":"/workspace/model-lab/.cache/huggingface","COMFYUI_PORT":"8188"}' \
-  --terminate-after '<ISO8601_UTC>'
+  --env '{"AUTO_DOWNLOAD_MODELS":"0","MODEL_LAB_ROOT":"/workspace/model-lab","HF_HOME":"/workspace/model-lab/.cache/huggingface","COMFYUI_PORT":"8188","SELF_TERMINATE_AFTER_SECONDS":"14400"}'
 ```
 
 - **PROPOSED** — Once the Pod is healthy and the prompt manifest is approved:
@@ -247,7 +246,7 @@ git push -u origin codex/model-lab-v1.1
 |---|---|
 | **CONFIRMED** | No paid Pod may be created without J.K. approving the GPU, current hourly rate, maximum runtime, and maximum estimated spend. |
 | **CONFIRMED** | Only one paid prep/commissioning Pod may run at a time. Check for existing paid resources before creating another. |
-| **CONFIRMED** | Every Pod creation must include an explicit termination deadline. Never rely on memory or a browser tab. |
+| **CONFIRMED** | Every Pod creation must include `SELF_TERMINATE_AFTER_SECONDS` as an explicit termination deadline. Current RunPod MCP and `runpodctl pod create` schemas do not expose the former native stop/terminate flags, so the container uses the injected pod-scoped CLI credential to remove itself at the deadline. Never rely on memory or a browser tab. |
 | **PROPOSED** | Initial caps: at most two hours for volume preparation and at most four hours for build/smoke commissioning, each subject to J.K.'s approval. |
 | **UNKNOWN** | Full 900-image cap. Calculate from measured per-model smoke throughput plus margin and obtain approval before starting. |
 | **CONFIRMED** | On success or a stop condition, terminate the Pod, confirm billing has stopped, and preserve the network volume. |

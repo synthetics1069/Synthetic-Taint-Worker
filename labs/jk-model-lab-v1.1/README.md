@@ -74,6 +74,12 @@ docker run --rm --gpus all -p 8188:8188 \
 
 Open `http://localhost:8188` for manual inspection. The five UI workflows are in `workflows/`; their immutable upstream source copies are in `workflow_sources/`. Automated experiments use the five API-format workflows in `api_workflows/`.
 
+For RunPod commissioning, set `SELF_TERMINATE_AFTER_SECONDS` to a positive integer
+(for example, `14400` for four hours). The container arms a background guard that
+removes its own Pod at the deadline using RunPod's injected pod-scoped CLI credential.
+The timer is a cost backstop; normal teardown should still remove the Pod as soon as
+commissioning finishes.
+
 ## Validate and execute
 
 Static validation does not need a GPU:

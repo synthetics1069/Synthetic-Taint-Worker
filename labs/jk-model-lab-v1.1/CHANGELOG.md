@@ -13,3 +13,4 @@
 - Sealed the 15-prompt protocol as version 1.0.0 after J.K.'s approval on 2026-09-11.
 - Added a deterministic Markdown-to-JSON manifest synchronization script and recorded manifest hash.
 - Preserve user-edited persistent workflows on container restart by copying packaged defaults only when absent.
+- Add an opt-in Pod self-termination guard for bounded commissioning runs now that RunPod no longer exposes create-time stop/terminate flags.

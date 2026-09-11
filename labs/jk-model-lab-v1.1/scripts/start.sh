@@ -40,6 +40,27 @@ if [[ "${AUTO_DOWNLOAD_MODELS:-0}" == "1" ]]; then
   python /opt/model-lab/scripts/download_models.py
 fi
 
+# RunPod no longer exposes a create-time termination flag. When configured,
+# use the pod-scoped runpodctl credential injected by RunPod as a hard cost
+# guard. The legacy command is intentional: pod-scoped self-removal currently
+# works through this surface while the noun-verb equivalent is rejected.
+if [[ -n "${SELF_TERMINATE_AFTER_SECONDS:-}" ]]; then
+  if [[ ! "${SELF_TERMINATE_AFTER_SECONDS}" =~ ^[1-9][0-9]*$ ]]; then
+    echo "ERROR: SELF_TERMINATE_AFTER_SECONDS must be a positive integer." >&2
+    exit 1
+  fi
+  if [[ -z "${RUNPOD_POD_ID:-}" ]]; then
+    echo "ERROR: RUNPOD_POD_ID is required for the self-termination guard." >&2
+    exit 1
+  fi
+  (
+    sleep "${SELF_TERMINATE_AFTER_SECONDS}"
+    echo "Self-termination deadline reached; removing Pod ${RUNPOD_POD_ID}."
+    runpodctl remove pod "${RUNPOD_POD_ID}"
+  ) >>"$LAB_ROOT/runs/self-terminate.log" 2>&1 &
+  echo "Self-termination guard armed for ${SELF_TERMINATE_AFTER_SECONDS} seconds."
+fi
+
 # Preserve the official RunPod base startup so SSH and the web terminal remain available.
 /start.sh &
 
