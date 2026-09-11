@@ -36,10 +36,6 @@ for workflow in /opt/model-lab/workflows/*.json; do
   cp -n "$workflow" "$LAB_ROOT/user/default/workflows/$(basename "$workflow")"
 done
 
-if [[ "${AUTO_DOWNLOAD_MODELS:-0}" == "1" ]]; then
-  python /opt/model-lab/scripts/download_models.py
-fi
-
 # RunPod no longer exposes a create-time termination flag. When configured,
 # use the pod-scoped runpodctl credential injected by RunPod as a hard cost
 # guard. The legacy command is intentional: pod-scoped self-removal currently
@@ -59,6 +55,10 @@ if [[ -n "${SELF_TERMINATE_AFTER_SECONDS:-}" ]]; then
     runpodctl remove pod "${RUNPOD_POD_ID}"
   ) >>"$LAB_ROOT/runs/self-terminate.log" 2>&1 &
   echo "Self-termination guard armed for ${SELF_TERMINATE_AFTER_SECONDS} seconds."
+fi
+
+if [[ "${AUTO_DOWNLOAD_MODELS:-0}" == "1" ]]; then
+  python /opt/model-lab/scripts/download_models.py
 fi
 
 # Preserve the official RunPod base startup so SSH and the web terminal remain available.
